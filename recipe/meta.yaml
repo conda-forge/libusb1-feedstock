@@ -1,5 +1,5 @@
 {% set name = "libusb1" %}
-{% set version = "3.3.0" %}
+{% set version = "3.4.0" %}
 
 
 package:
@@ -8,19 +8,20 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/libusb1-{{ version }}.tar.gz
-  sha256: b642aa518689f8e053f61955cba274e72bc8d0794c65d7990745aaae90dfc8a1
+  sha256: 9cf5638506d54f21bf36550d97ea63189111a23c4d8078f630103a2052135f45
 
 build:
   number: 0
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
+    - python {{ python_min }}
+    - setuptools
     - pip
-    - python >=3.4
   run:
-    - python >=3.4
+    - python >={{ python_min }}
 
 test:
   imports:
@@ -29,6 +30,7 @@ test:
   commands:
     - pip check
   requires:
+    - python {{ python_min }}
     - pip
 
 about:
